@@ -19,7 +19,7 @@ check:
 
 create:
 	@docker compose run --rm app cargo new $(FUNC) --bin
-	@sudo chmod -R a+w functions/$(FUNC)
+	@sudo chmod -R a+w infrastructure/functions/$(FUNC)
 
 build:
 	@docker compose run --rm app /bin/bash -c "cd $(FUNC) && rustup target add x86_64-unknown-linux-musl && cargo build --release --target x86_64-unknown-linux-musl"
