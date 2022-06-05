@@ -1,4 +1,4 @@
-.PHONY: init plan apply destroy check build
+.PHONY: init plan apply destroy check create build
 
 init:
 	@docker compose run --rm terraform init
