@@ -3,7 +3,7 @@ data "aws_caller_identity" "_" {}
 module "lambda" {
   commons = local.commons
   source  = "../modules/lambda"
-  name    = "trial"
+  name    = "greet"
 }
 
 module "apigw" {

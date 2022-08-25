@@ -1,18 +1,25 @@
 version: '3'
 
+x-tf-common:
+  &tf-common
+  image: hashicorp/terraform:latest
+  volumes:
+    - ./infrastructure:/workspace
+  environment:
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_REGION
+
 services:
-  terraform:
-    image: hashicorp/terraform:latest
-    volumes:
-      - ./infrastructure:/workspace
-    environment:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - AWS_REGION
+  tf-exec:
+    <<: *tf-common
     working_dir: "/workspace/service"
+  tf-check:
+    <<: *tf-common
+    working_dir: "/workspace"
 
   app:
     image: rust
     volumes:
-      - ./infrastructure/functions:/workspace
+      - ./:/workspace
     working_dir: "/workspace"
