@@ -1,25 +1,26 @@
 .PHONY: init plan apply destroy check create build
 
 init:
-	@docker compose run --rm terraform init
+	@docker compose run --rm tf-exec init
 
 plan:
-	@docker compose run --rm terraform plan
+	@docker compose run --rm tf-exec plan
 
 apply:
-	@docker compose run --rm terraform apply -auto-approve
+	@docker compose run --rm tf-exec apply -auto-approve
 
 destroy:
-	@docker compose run --rm terraform destroy
+	@docker compose run --rm tf-exec destroy -auto-approve
 
 check:
-	@docker compose run --rm terraform fmt -recursive
-	@docker compose run --rm terraform fmt -check
-	@docker compose run --rm terraform validate
+	@docker compose run --rm tf-check fmt -recursive
+	@make init
+	@docker compose run --rm tf-check validate
+	@make plan
 
 create:
-	@docker compose run --rm app cargo new $(FUNC) --bin
-	@sudo chmod -R a+w infrastructure/functions/$(FUNC)
+	@docker compose run --rm app cargo new lambda --bin
+	@sudo chmod -R a+w infrastructure/functions/lambda
 
 build:
-	@docker compose run --rm app /bin/bash -c "cd $(FUNC) && rustup target add x86_64-unknown-linux-musl && cargo build --release --target x86_64-unknown-linux-musl"
+	@docker compose run --rm app ./scripts/build.sh

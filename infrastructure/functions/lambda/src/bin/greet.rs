@@ -23,15 +23,22 @@ struct Args {
   name: String
 }
 
+#[derive(Debug, Serialize, Default)]
+struct Body {
+  #[serde(default)]
+  message: String
+}
+
 async fn func(event: Request, _: Context) -> Result<impl IntoResponse, Error> {
   let args: Args = serde_json::from_slice(event.body().as_ref()).unwrap();
+  let body: Body = Body { message: format!("Hello {}", args.name) };
   Ok(Response::builder()
     .status(200)
     .header("Content-Type", "application/json")
     .header("Access-Control-Allow-Methods", "OPTIONS,POST,GET")
     .header("Access-Control-Allow-Credential", "true")
     .header("Access-Control-Allow-Origin", "*")
-    .body(format!(r#"{{"message": "Hello {}!"}}"#, args.name))
+    .body(serde_json::to_string(&body).unwrap())
     .expect("failed to render response")
   )
 }

@@ -1,7 +1,7 @@
-variable "common_values" {}
+variable "commons" {}
 
 variable "name" {
-  description = "リソース名"
+  description = "resource name"
 }
 variable "lambda" {
   type = map(string)
@@ -15,9 +15,9 @@ variable "stage_name" {
 
 locals {
   name = join("_", [
-    var.common_values.workspace,
+    var.commons.workspace,
     var.name,
-    var.common_values.service,
-    var.common_values.project
-    ])
+    var.commons.service,
+    var.commons.project
+  ])
 }
