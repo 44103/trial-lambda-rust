@@ -1,27 +1,28 @@
 # Rust Hello World Test
 
 ## Lambda新規作成
-```sh
-docker compose run --rm app cargo new <Lambda関数名> --bin
-sudo chmod -R a+w functions/<Lambda関数名>
-```
-or
-```sh
-make create FUNC=<Lambda関数名>
-```
+1. 初期化
+   ```sh
+   make create
+   ```
+1. 新規関数作成
+   `infrastructure/functions/lambda/src/bin/`に新規作成するLambda関数名でRustファイルを作成
+1. `infrastructure/service/main.tf`に以下のような内容を記述
+   ```hcl
+   module "lambda" {
+      commons = local.commons
+      source  = "../modules/lambda"
+      name    = "<Lambda関数名>"
+   }
+   ```
+1. ビルド
+   ```sh
+   make build FUNC=<Lambda関数名>
+   ```
 
-## コンパイル確認
+## 動作確認
 ```sh
-docker compose run --rm app /bin/bash -c "cd <Lambda関数名> && cargo check"
-```
-
-## ビルド
-```sh
-docker compose run --rm app /bin/bash -c "cd <Lambda関数名> && rustup target add x86_64-unknown-linux-musl && cargo build --release --target x86_64-unknown-linux-musl"
-```
-or
-```sh
-make build FUNC=<Lambda関数名>
+curl -X POST -H "Content-Type: application/json" -d '{"name": "circleci"}' 'https://<URI>/prod/greet'
 ```
 
 ## 参考
