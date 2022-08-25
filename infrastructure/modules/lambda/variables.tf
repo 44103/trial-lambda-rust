@@ -20,6 +20,6 @@ locals {
     { "TZ" = "Asia/Tokyo" },
     var.envs
   )
-  func_dir = "${path.module}/../../functions/${var.name}"
+  func_dir = "${path.module}/../../functions/lambda"
   dist_dir = "${local.func_dir}/bootstrap"
 }
