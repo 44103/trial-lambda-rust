@@ -1,24 +1,22 @@
-variable "region" {
-  description = "リージョン"
-}
+variable "region" {}
 
 variable "project" {
-  description = "リソース名のProject"
+  description = "project name"
   default     = "trial"
 }
 
 variable "service" {
-  description = "サービス名"
+  description = "service name"
   default     = "rust"
 }
 
 variable "environment" {
-  description = "環境"
+  description = "environment"
   default     = "dev"
 }
 
 locals {
-  common_values = {
+  commons = {
     region      = var.region
     project     = var.project
     service     = var.service

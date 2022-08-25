@@ -1,20 +1,20 @@
-variable "common_values" {}
+variable "commons" {}
 
 variable "name" {
-  description = "リソース名"
+  description = "resource name"
 }
 
 variable "envs" {
-  description = "lambdaで使用する環境変数"
+  description = "environments"
   default     = {}
 }
 
 locals {
   name = join("_", [
-    var.common_values.workspace,
+    var.commons.workspace,
     var.name,
-    var.common_values.service,
-    var.common_values.project
+    var.commons.service,
+    var.commons.project
     ])
   envs = merge(
     { "TZ" = "Asia/Tokyo" },

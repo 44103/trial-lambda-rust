@@ -13,9 +13,10 @@ destroy:
 	@docker compose run --rm terraform destroy
 
 check:
+	@make init
 	@docker compose run --rm terraform fmt -recursive
-	@docker compose run --rm terraform fmt -check
 	@docker compose run --rm terraform validate
+	@make plan
 
 create:
 	@docker compose run --rm app cargo new $(FUNC) --bin
