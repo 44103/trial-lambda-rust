@@ -33,11 +33,11 @@ resource "aws_lambda_permission" "apigw" {
 }
 
 resource "aws_api_gateway_deployment" "_" {
-  rest_api_id       = aws_api_gateway_rest_api._.id
-  stage_name        = var.stage_name
+  rest_api_id = aws_api_gateway_rest_api._.id
+  stage_name  = var.stage_name
 
   triggers = {
-    "hash" = filemd5("${path.module}/main.tf")
+    "hash"   = filemd5("${path.module}/main.tf")
     "lambda" = var.lambda.last_modified
   }
   depends_on = [

@@ -15,7 +15,7 @@ locals {
     var.name,
     var.commons.service,
     var.commons.project
-    ])
+  ])
   envs = merge(
     { "TZ" = "Asia/Tokyo" },
     var.envs
