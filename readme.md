@@ -21,8 +21,14 @@
    ```
 
 ## 動作確認
+API Gateway (REST) の場合
 ```sh
 curl -X POST -H "Content-Type: application/json" -d '{"name": "circleci"}' 'https://<URI>/prod/greet'
+```
+
+API Gateway v2 (HTTP) の場合
+```sh
+curl -X POST -H "Content-Type: application/json" -d '{"name": "circleci"}' 'https://<URI>/greet'
 ```
 
 ## 参考
