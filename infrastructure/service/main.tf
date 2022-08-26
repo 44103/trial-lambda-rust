@@ -6,15 +6,15 @@ module "lambda" {
   name    = "greet"
 }
 
-module "apigw" {
+module "apigwv2" {
   commons = local.commons
-  source  = "../modules/apigw"
+  source  = "../modules/apigwv2"
   name    = "trial"
 }
 
 module "domain" {
-  source     = "../modules/apigw/domain"
-  apigateway = module.apigw
+  source     = "../modules/apigwv2/domain"
+  apigateway = module.apigwv2
   lambda     = module.lambda
   route_path = "POST /greet"
 }
