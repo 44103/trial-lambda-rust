@@ -7,9 +7,14 @@ module "lambda" {
 }
 
 module "apigw" {
-  commons   = local.commons
-  source    = "../modules/apigw"
-  name      = "trial"
-  lambda    = module.lambda
-  path_part = "greet"
+  commons = local.commons
+  source  = "../modules/apigw"
+  name    = "trial"
+}
+
+module "domain" {
+  source     = "../modules/apigw/domain"
+  apigateway = module.apigw
+  lambda     = module.lambda
+  route_path = "POST /greet"
 }
