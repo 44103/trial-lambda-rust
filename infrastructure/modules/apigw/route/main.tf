@@ -1,6 +1,6 @@
 resource "aws_api_gateway_resource" "_" {
   path_part   = var.path_part
-  parent_id   = var.apigateway.rest_api.root_resource_id
+  parent_id   = coalesce(var.parent_id, var.apigateway.rest_api.root_resource_id)
   rest_api_id = var.apigateway.rest_api.id
 }
 
