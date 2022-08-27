@@ -3,6 +3,6 @@ resource "aws_api_gateway_deployment" "_" {
   stage_name  = var.stage_name
 
   triggers = {
-    "lambda" = var.lambda.last_modified
+    "lambda" = var.lambda.function.last_modified
   }
 }

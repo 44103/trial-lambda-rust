@@ -6,20 +6,6 @@ module "lambda" {
   name    = "greet"
 }
 
-# module "apigwv2" {
-#   source  = "../modules/apigwv2"
-#   commons = local.commons
-#   name    = "trial"
-# }
-
-# module "route" {
-#   source      = "../modules/apigwv2/route"
-#   apigateway  = module.apigwv2
-#   lambda      = module.lambda
-#   path_part   = "greet"
-#   http_method = "POST"
-# }
-
 module "apigw" {
   source  = "../modules/apigw"
   commons = local.commons
@@ -39,3 +25,17 @@ module "deploy" {
   apigateway = module.apigw
   lambda     = module.lambda
 }
+
+# module "apigwv2" {
+#   source  = "../modules/apigwv2"
+#   commons = local.commons
+#   name    = "trial"
+# }
+
+# module "route" {
+#   source      = "../modules/apigwv2/route"
+#   apigateway  = module.apigwv2
+#   lambda      = module.lambda
+#   path_part   = "greet"
+#   http_method = "POST"
+# }

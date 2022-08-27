@@ -17,12 +17,12 @@ resource "aws_api_gateway_integration" "_" {
   http_method             = aws_api_gateway_method._.http_method
   integration_http_method = coalesce(var.integration_http_method, var.http_method)
   type                    = "AWS_PROXY"
-  uri                     = var.lambda.invoke_arn
+  uri                     = var.lambda.function.invoke_arn
 }
 
 resource "aws_lambda_permission" "apigw" {
   action        = "lambda:InvokeFunction"
-  function_name = var.lambda.function_name
+  function_name = var.lambda.function.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn = join("/", [
     var.apigateway.rest_api.execution_arn,

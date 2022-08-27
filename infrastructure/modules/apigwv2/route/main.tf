@@ -1,7 +1,7 @@
 resource "aws_apigatewayv2_integration" "_" {
   api_id                 = var.apigateway.id
   integration_type       = "AWS_PROXY"
-  integration_uri        = var.lambda.arn
+  integration_uri        = var.lambda.function.arn
   payload_format_version = "2.0"
 }
 
@@ -13,7 +13,7 @@ resource "aws_apigatewayv2_route" "_" {
 
 resource "aws_lambda_permission" "_" {
   action        = "lambda:InvokeFunction"
-  function_name = var.lambda.arn
+  function_name = var.lambda.function.arn
   principal     = "apigateway.amazonaws.com"
   source_arn = join("/", [
     var.apigateway.execution_arn,

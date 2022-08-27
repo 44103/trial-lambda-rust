@@ -44,7 +44,6 @@ resource "aws_lambda_function" "_" {
   role             = aws_iam_role._.arn
   runtime          = "provided.al2"
   handler          = "bootstrap.is.real.handler"
-  timeout          = 10
   filename         = data.archive_file._.output_path
   source_code_hash = data.archive_file._.output_base64sha256
 
