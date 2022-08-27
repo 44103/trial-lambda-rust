@@ -43,6 +43,14 @@ module "deploy" {
 #   name    = "trial"
 # }
 
+# module "lambda_integration" {
+#   source      = "../modules/apigwv2/lambda_integration"
+#   commons     = local.commons
+#   name        = "greet"
+#   apigw       = module.apigwv2
+#   http_method = "POST"
+# }
+
 # module "route" {
 #   source      = "../modules/apigwv2/route"
 #   apigateway  = module.apigwv2
