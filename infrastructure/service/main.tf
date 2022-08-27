@@ -31,7 +31,9 @@ module "lambda_integration" {
 module "deploy" {
   source     = "../modules/apigw/deploy"
   apigateway = module.apigw
-  lambda     = module.lambda_integration.lambda
+  lambdas = [
+    module.lambda_integration.lambda
+  ]
   depends_on = [
     module.lambda_integration
   ]
