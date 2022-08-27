@@ -1,6 +1,6 @@
 variable "lambda" {}
 variable "route_path" {}
 variable "apigateway" {}
-variable "domain_name" {
+variable "method" {
   default = "*"
 }

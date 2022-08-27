@@ -12,8 +12,8 @@ module "lambda" {
 #   name    = "trial"
 # }
 
-# module "domain" {
-#   source     = "../modules/apigwv2/domain"
+# module "route" {
+#   source     = "../modules/apigwv2/route"
 #   apigateway = module.apigwv2
 #   lambda     = module.lambda
 #   route_path = "POST /greet"
@@ -25,8 +25,8 @@ module "apigw" {
   name    = "trial"
 }
 
-module "domain" {
-  source      = "../modules/apigw/domain"
+module "route" {
+  source      = "../modules/apigw/route"
   apigateway  = module.apigw
   lambda      = module.lambda
   path_part   = "greet"
