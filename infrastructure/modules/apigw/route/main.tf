@@ -21,14 +21,13 @@ resource "aws_api_gateway_integration" "_" {
 }
 
 resource "aws_lambda_permission" "apigw" {
-  statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = var.lambda.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn = join("", [
+  source_arn = join("/", [
     var.apigateway.rest_api.execution_arn,
-    "/*/",
-    aws_api_gateway_method._.http_method,
-    aws_api_gateway_resource._.path
+    "*",
+    var.http_method,
+    var.path_part
   ])
 }

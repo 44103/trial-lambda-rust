@@ -1,6 +1,8 @@
 variable "lambda" {}
-variable "route_path" {}
 variable "apigateway" {}
-variable "method" {
-  default = "*"
+variable "path_part" {}
+variable "http_method" {}
+
+locals {
+  route_path = "${var.http_method} /${var.path_part}"
 }

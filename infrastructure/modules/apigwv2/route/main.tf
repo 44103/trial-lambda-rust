@@ -7,7 +7,7 @@ resource "aws_apigatewayv2_integration" "_" {
 
 resource "aws_apigatewayv2_route" "_" {
   api_id    = var.apigateway.id
-  route_key = var.route_path
+  route_key = local.route_path
   target    = "integrations/${aws_apigatewayv2_integration._.id}"
 }
 
@@ -15,5 +15,10 @@ resource "aws_lambda_permission" "_" {
   action        = "lambda:InvokeFunction"
   function_name = var.lambda.arn
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${var.apigateway.execution_arn}/*/${var.method}"
+  source_arn = join("/", [
+    var.apigateway.execution_arn,
+    "*",
+    var.http_method,
+    var.path_part
+  ])
 }
