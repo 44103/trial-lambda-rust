@@ -6,12 +6,7 @@ variable "name" {
 variable "lambda" {
   type = map(string)
 }
-
 variable "path_part" {}
-
-variable "stage_name" {
-  default = "prod"
-}
 
 locals {
   name = join("_", [
