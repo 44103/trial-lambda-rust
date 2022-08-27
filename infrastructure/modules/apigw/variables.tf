@@ -3,10 +3,6 @@ variable "commons" {}
 variable "name" {
   description = "resource name"
 }
-variable "lambda" {
-  type = map(string)
-}
-variable "path_part" {}
 
 locals {
   name = join("_", [

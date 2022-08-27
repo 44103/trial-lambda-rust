@@ -1,6 +1,7 @@
 variable "lambda" {}
-variable "route_path" {}
 variable "apigateway" {}
-variable "domain_name" {
-  default = "*"
+variable "path_part" {}
+variable "http_method" {}
+variable "integration_http_method" {
+  default = null
 }
