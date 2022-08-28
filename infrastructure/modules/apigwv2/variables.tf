@@ -3,6 +3,9 @@ variable "commons" {}
 variable "name" {
   description = "resource name"
 }
+variable "stage_name" {
+  default = "$default"
+}
 
 locals {
   name = join("_", [
