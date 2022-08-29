@@ -28,14 +28,50 @@ module "lambda_integration" {
 #   http_method = "POST"
 # }
 
+module "dynamodb" {
+  source        = "../modules/dynamodb"
+  commons       = local.commons
+  name          = "shortcuts"
+  partition_key = "name"
+  attributes = [
+    {
+      name = "name"
+      type = "S"
+    }
+  ]
+}
+
+module "lambda_integration_create_shortcut" {
+  source      = "../modules/apigw/lambda_integration"
+  commons     = local.commons
+  name        = "create_shortcut"
+  apigw       = module.apigw
+  http_method = "POST"
+  path_part   = "shortcut"
+  envs = {
+    "TABLE" : module.dynamodb.table.name
+  }
+  policy_statements = [
+    {
+      Action : [
+        "dynamodb:PutItem"
+      ],
+      Effect : "Allow",
+      Resource : module.dynamodb.table.arn
+    }
+  ]
+}
+
 module "deploy" {
   source     = "../modules/apigw/deploy"
   apigateway = module.apigw
   lambdas = [
-    module.lambda_integration.lambda
+    module.lambda_integration.lambda,
+    module.lambda_integration_create_shortcut.lambda
   ]
   depends_on = [
-    module.lambda_integration
+    module.lambda_integration,
+    module.lambda_integration_create_shortcut
   ]
 }
 

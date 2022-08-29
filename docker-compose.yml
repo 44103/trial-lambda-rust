@@ -19,7 +19,9 @@ services:
     working_dir: "/workspace"
 
   app:
-    image: rust
+    build:
+      context: .
+      dockerfile: Dockerfile.rust
     volumes:
       - ./:/workspace
     working_dir: "/workspace"

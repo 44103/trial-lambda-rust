@@ -33,6 +33,16 @@ resource "aws_iam_role_policy" "_" {
   })
 }
 
+resource "aws_iam_role_policy" "ext" {
+  count = var.policy_statements == [] ? 0 : 1
+  role  = aws_iam_role._.id
+  name  = "${local.name}_ext"
+  policy = jsonencode({
+    Version : "2012-10-17",
+    Statement : var.policy_statements
+  })
+}
+
 data "archive_file" "_" {
   type        = "zip"
   source_dir  = "${local.func_dir}/dist/${var.name}/bin"

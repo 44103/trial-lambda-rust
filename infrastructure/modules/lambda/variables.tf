@@ -1,5 +1,4 @@
 variable "commons" {}
-
 variable "name" {
   description = "resource name"
 }
@@ -7,6 +6,9 @@ variable "name" {
 variable "envs" {
   description = "environments"
   default     = {}
+}
+variable "policy_statements" {
+  default = []
 }
 
 locals {

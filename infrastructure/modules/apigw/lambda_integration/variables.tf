@@ -12,6 +12,9 @@ variable "envs" {
   description = "environments"
   default     = {}
 }
+variable "policy_statements" {
+  default = []
+}
 
 locals {
   name = join("_", [

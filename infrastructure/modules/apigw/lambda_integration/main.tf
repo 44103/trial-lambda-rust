@@ -1,8 +1,9 @@
 module "lambda" {
-  source  = "../../lambda"
-  commons = var.commons
-  name    = var.name
-  envs    = var.envs
+  source            = "../../lambda"
+  commons           = var.commons
+  name              = var.name
+  envs              = var.envs
+  policy_statements = var.policy_statements
 }
 
 module "route" {
