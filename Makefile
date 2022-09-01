@@ -18,6 +18,9 @@ check:
 	@docker compose run --rm tf-check validate
 	@make plan
 
+console:
+	@docker compose run --rm tf-cli
+
 create:
 	@docker compose run --rm app cargo new lambda --bin
 	@sudo chmod -R a+w infrastructure/functions/lambda
