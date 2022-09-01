@@ -17,6 +17,10 @@ services:
   tf-check:
     <<: *tf-common
     working_dir: "/workspace"
+  tf-cli:
+    <<: *tf-common
+    working_dir: "/workspace/service"
+    entrypoint: /bin/sh
 
   app:
     build:
