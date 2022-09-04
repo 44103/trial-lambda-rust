@@ -49,62 +49,6 @@ module "apigw" {
   }
 }
 
-# module "lambda_integration" {
-#   source      = "../modules/apigw/lambda_integration"
-#   commons     = local.commons
-#   name        = "greet"
-#   apigw       = module.apigw
-#   http_method = "POST"
-# }
-
-# module "lambda" {
-#   source  = "../modules/lambda"
-#   commons = local.commons
-#   name    = "greet"
-# }
-
-# module "route" {
-#   source      = "../modules/apigw/route"
-#   apigateway  = module.apigw
-#   lambda      = module.lambda
-#   path_part   = "greet"
-#   http_method = "POST"
-# }
-
-# module "lambda_integration_create_shortcut" {
-#   source      = "../modules/apigw/lambda_integration"
-#   commons     = local.commons
-#   name        = "create_shortcut"
-#   apigw       = module.apigw
-#   http_method = "POST"
-#   path_part   = "shortcut"
-#   envs = {
-#     "TABLE" : module.dynamodb.table.name
-#   }
-#   policy_statements = [
-#     {
-#       Action : [
-#         "dynamodb:PutItem"
-#       ],
-#       Effect : "Allow",
-#       Resource : module.dynamodb.table.arn
-#     }
-#   ]
-# }
-
-# module "deploy" {
-#   source     = "../modules/apigw/deploy"
-#   apigateway = module.apigw
-#   lambdas = [
-#     module.lambda_integration.lambda,
-#     module.lambda_integration_create_shortcut.lambda
-#   ]
-#   depends_on = [
-#     module.lambda_integration,
-#     module.lambda_integration_create_shortcut
-#   ]
-# }
-
 # module "apigwv2" {
 #   source  = "../modules/apigwv2"
 #   commons = local.commons
