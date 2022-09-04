@@ -1,0 +1,81 @@
+openapi: "3.0.1"
+
+info:
+  title: "Rust Trial"
+  version: "v0.0.1"
+
+servers:
+  - url: "https://{apiId}.execute-api.ap-northeast-1.amazonaws.com/{basePath}"
+    variables:
+      basePath:
+        default: "prod"
+      apiId:
+        default: ""
+
+paths:
+  /greet:
+    post:
+      summary: Greet
+      requestBody:
+        description: greet message
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/message"
+      responses:
+        "200":
+          description: ok
+
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "${POST_greet}"
+        type: "AWS_PROXY"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 29000
+        contentHandling: CONVERT_TO_TEXT
+        payloadFormatVersion: 2.0
+
+  /shortcut:
+    post:
+      summary: Create Shortcut
+      requestBody:
+        description: create shortcut
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postShortcut"
+      responses:
+        "200":
+          description: ok
+
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "${POST_shortcut}"
+        type: "AWS_PROXY"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 29000
+        contentHandling: CONVERT_TO_TEXT
+        payloadFormatVersion: 2.0
+
+components:
+  schemas:
+    message:
+      type: object
+      properties:
+        name:
+          type: string
+    postShortcut:
+      type: object
+      properties:
+        name:
+          type: string
+        keys:
+          type: array
+          items:
+            $ref: "#/components/schemas/key"
+        desc:
+          type: string
+    key:
+      description: Key
+      type: string
+      example: Ctrl
