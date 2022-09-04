@@ -37,8 +37,20 @@ module "dynamodb" {
   ]
 }
 
-module "apigw" {
-  source     = "../modules/apigw"
+# module "apigw" {
+#   source     = "../modules/apigw"
+#   commons    = local.commons
+#   name       = "trial"
+#   stage_name = "prod"
+#   body       = file("openapi.yml")
+#   integrations = {
+#     "POST_greet"    = module.lambda_greet
+#     "POST_shortcut" = module.lambda_shortcut
+#   }
+# }
+
+module "apigwv2" {
+  source     = "../modules/apigwv2"
   commons    = local.commons
   name       = "trial"
   stage_name = "prod"
@@ -48,25 +60,3 @@ module "apigw" {
     "POST_shortcut" = module.lambda_shortcut
   }
 }
-
-# module "apigwv2" {
-#   source  = "../modules/apigwv2"
-#   commons = local.commons
-#   name    = "trial"
-# }
-
-# module "lambda_integration" {
-#   source      = "../modules/apigwv2/lambda_integration"
-#   commons     = local.commons
-#   name        = "greet"
-#   apigw       = module.apigwv2
-#   http_method = "POST"
-# }
-
-# module "route" {
-#   source      = "../modules/apigwv2/route"
-#   apigateway  = module.apigwv2
-#   lambda      = module.lambda
-#   path_part   = "greet"
-#   http_method = "POST"
-# }

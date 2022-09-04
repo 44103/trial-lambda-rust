@@ -21,8 +21,8 @@ locals {
   lambda_permissions = {
     for k, v in var.integrations : k => {
       function_name = v.function.function_name
-      http_method   = element(split("-", k), 0)
-      path_part     = element(split("-", k), 1)
+      http_method   = element(split("_", k), 0)
+      path_part     = element(split("_", k), 1)
     }
   }
 }

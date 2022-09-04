@@ -35,6 +35,8 @@ paths:
         uri: "${POST_greet}"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
+        contentHandling: CONVERT_TO_TEXT
+        payloadFormatVersion: 2.0
 
   /shortcut:
     post:
@@ -58,6 +60,8 @@ paths:
         uri: "${POST_shortcut}"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
+        contentHandling: CONVERT_TO_TEXT
+        payloadFormatVersion: 2.0
 
 components:
   schemas:
