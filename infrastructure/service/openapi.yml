@@ -27,12 +27,9 @@ paths:
           description: ok
 
       x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        type: "aws_proxy"
         httpMethod: "POST"
         uri: "${POST_greet}"
+        type: "AWS_PROXY"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
         contentHandling: CONVERT_TO_TEXT
@@ -52,12 +49,9 @@ paths:
           description: ok
 
       x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        type: "aws_proxy"
         httpMethod: "POST"
         uri: "${POST_shortcut}"
+        type: "AWS_PROXY"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
         contentHandling: CONVERT_TO_TEXT
