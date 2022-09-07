@@ -16,7 +16,8 @@ locals {
   ])
   openapi_vars = {
     for k, v in var.integrations :
-    k => v.function.invoke_arn
+    # k => v.function.invoke_arn
+    replace(replace(k, "_", ""), "/", "_") => v.function.invoke_arn
   }
   lambda_permissions = {
     for k, v in var.integrations : k => {
