@@ -55,7 +55,7 @@ async fn func(event: Request) -> Result<impl IntoResponse, Error> {
     .item("quote", AttributeValue::S(args.quote.clone()))
     .send().await?;
 
-  let body: Body = Body { message: format!("{} said, {}", args.name, args.quote) };
+  let body: Body = Body { message: format!("registerd, {}!", args.name) };
 
   Ok(Response::builder()
     .status(200)

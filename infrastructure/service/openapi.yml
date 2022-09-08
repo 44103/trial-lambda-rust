@@ -33,6 +33,7 @@ paths:
         timeoutInMillis: 29000
         contentHandling: CONVERT_TO_TEXT
         payloadFormatVersion: 2.0
+  /quote/{name}:
     get:
       summary: Famouse Quote
       requestBody:
@@ -41,12 +42,18 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/message"
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
       responses:
         "200":
           description: ok
       x-amazon-apigateway-integration:
-        httpMethod: "GET"
-        uri: "${GET_quote}"
+        httpMethod: "POST"
+        uri: "${GET_quote_name}"
         type: "AWS_PROXY"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
