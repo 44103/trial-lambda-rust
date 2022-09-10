@@ -32,6 +32,22 @@ module "lambda_show_quote" {
   ]
 }
 
+module "lambda_update_quote" {
+  source  = "../modules/lambda"
+  commons = local.commons
+  name    = "update_quote"
+  envs = {
+    TABLE = module.dynamodb_quotes.table.name
+  }
+  policy_statements = [
+    {
+      Action : ["dynamodb:UpdateItem"],
+      Effect : "Allow",
+      Resource : module.dynamodb_quotes.table.arn
+    }
+  ]
+}
+
 module "dynamodb_quotes" {
   source        = "../modules/dynamodb"
   commons       = local.commons
@@ -65,5 +81,6 @@ module "apigwv2" {
   integrations = {
     "POST_/quote"       = module.lambda_create_quote
     "GET_/quote/{name}" = module.lambda_show_quote
+    "PUT_/quote/{name}" = module.lambda_update_quote
   }
 }
