@@ -48,6 +48,22 @@ module "lambda_update_quote" {
   ]
 }
 
+module "lambda_destroy_quote" {
+  source  = "../modules/lambda"
+  commons = local.commons
+  name    = "destroy_quote"
+  envs = {
+    TABLE = module.dynamodb_quotes.table.name
+  }
+  policy_statements = [
+    {
+      Action : ["dynamodb:DeleteItem"],
+      Effect : "Allow",
+      Resource : module.dynamodb_quotes.table.arn
+    }
+  ]
+}
+
 module "dynamodb_quotes" {
   source        = "../modules/dynamodb"
   commons       = local.commons
@@ -79,8 +95,9 @@ module "apigwv2" {
   stage_name = "v1"
   body       = file("openapi.yml")
   integrations = {
-    "POST_/quote"       = module.lambda_create_quote
-    "GET_/quote/{name}" = module.lambda_show_quote
-    "PUT_/quote/{name}" = module.lambda_update_quote
+    "POST_/quote"          = module.lambda_create_quote
+    "GET_/quote/{name}"    = module.lambda_show_quote
+    "PUT_/quote/{name}"    = module.lambda_update_quote
+    "DELETE_/quote/{name}" = module.lambda_destroy_quote
   }
 }
