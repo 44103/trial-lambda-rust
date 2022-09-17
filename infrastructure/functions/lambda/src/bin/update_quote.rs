@@ -6,29 +6,24 @@ extern crate serde_json;
 use std::env;
 use std::process;
 use lambda_http::{
-  handler,
-  lambda_runtime::{self, Context},
+  service_fn,
   IntoResponse, Request, Response,
 };
 use aws_sdk_dynamodb as dynamodb;
-use aws_sdk_dynamodb::model::AttributeValue;
+use aws_sdk_dynamodb::model::{AttributeAction, AttributeValue as AttrValue, AttributeValueUpdate};
 
 type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-  lambda_runtime::run(handler(func)).await?;
+  lambda_http::run(service_fn(func)).await?;
   Ok(())
 }
 
 #[derive(Debug, Deserialize, Default)]
 struct Args {
-  #[serde(default)]
   name: String,
-  #[serde(default)]
-  keys: Vec<String>,
-  #[serde(default)]
-  desc: String
+  quote: String,
 }
 
 #[derive(Debug, Serialize, Default)]
@@ -37,7 +32,7 @@ struct Body {
   message: String
 }
 
-async fn func(event: Request, _: Context) -> Result<impl IntoResponse, Error> {
+async fn func(event: Request) -> Result<impl IntoResponse, Error> {
   let args: Args = serde_json::from_slice(event.body().as_ref()).unwrap();
 
   let config = aws_config::load_from_env().await;
@@ -50,15 +45,20 @@ async fn func(event: Request, _: Context) -> Result<impl IntoResponse, Error> {
       process::exit(1);
     }
   };
+  println!("{}", args.quote.clone());
+
+  let attr = AttributeValueUpdate::builder()
+    .action(AttributeAction::Put)
+    .value(AttrValue::S(args.quote.clone()))
+    .build();
   client
-    .put_item()
+    .update_item()
     .table_name(table)
-    .item("name", AttributeValue::S(args.name.clone()))
-    .item("keys", AttributeValue::Ss(args.keys))
-    .item("desc", AttributeValue::S(args.desc))
+    .key("name", AttrValue::S(args.name.clone()))
+    .attribute_updates("quote", attr)
     .send().await?;
 
-  let body: Body = Body { message: format!("registerd {}", args.name.clone()) };
+  let body: Body = Body { message: format!("updated, {}!", args.name) };
 
   Ok(Response::builder()
     .status(200)

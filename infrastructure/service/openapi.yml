@@ -8,16 +8,16 @@ servers:
   - url: "https://{apiId}.execute-api.ap-northeast-1.amazonaws.com/{basePath}"
     variables:
       basePath:
-        default: "prod"
+        default: "v1"
       apiId:
         default: ""
 
 paths:
-  /greet:
+  /quotes:
     post:
-      summary: Greet
+      summary: Famouse Quote
       requestBody:
-        description: greet message
+        description: quote message
         content:
           application/json:
             schema:
@@ -25,32 +25,85 @@ paths:
       responses:
         "200":
           description: ok
-
       x-amazon-apigateway-integration:
         httpMethod: "POST"
-        uri: "${POST_greet}"
+        uri: "${POST_quotes}"
         type: "AWS_PROXY"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
         contentHandling: CONVERT_TO_TEXT
         payloadFormatVersion: 2.0
-
-  /shortcut:
-    post:
-      summary: Create Shortcut
+  /quotes/{name}:
+    get:
+      summary: Famouse Quote
       requestBody:
-        description: create shortcut
+        description: quote message
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/postShortcut"
+              $ref: "#/components/schemas/message"
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
       responses:
         "200":
           description: ok
-
       x-amazon-apigateway-integration:
         httpMethod: "POST"
-        uri: "${POST_shortcut}"
+        uri: "${GET_quotes_name}"
+        type: "AWS_PROXY"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 29000
+        contentHandling: CONVERT_TO_TEXT
+        payloadFormatVersion: 2.0
+    put:
+      summary: Famouse Quote
+      requestBody:
+        description: quote message
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/message"
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: ok
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "${PUT_quotes_name}"
+        type: "AWS_PROXY"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 29000
+        contentHandling: CONVERT_TO_TEXT
+        payloadFormatVersion: 2.0
+    delete:
+      summary: Famouse Quote
+      requestBody:
+        description: quote message
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/message"
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: ok
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "${DELETE_quotes_name}"
         type: "AWS_PROXY"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
@@ -64,18 +117,3 @@ components:
       properties:
         name:
           type: string
-    postShortcut:
-      type: object
-      properties:
-        name:
-          type: string
-        keys:
-          type: array
-          items:
-            $ref: "#/components/schemas/key"
-        desc:
-          type: string
-    key:
-      description: Key
-      type: string
-      example: Ctrl
