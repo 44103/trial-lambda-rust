@@ -7,12 +7,11 @@ use std::env;
 use std::process;
 use lambda_http::{run, service_fn, Error, IntoResponse, Request, RequestExt, Response};
 use aws_sdk_dynamodb as dynamodb;
-use aws_sdk_dynamodb::model::AttributeValue;
+use aws_sdk_dynamodb::model::AttributeValue as AttrValue;
 use anyhow::{anyhow, Result};
 
 #[derive(Debug, Serialize, Default)]
 struct Body {
-  #[serde(default)]
   message: String
 }
 
@@ -36,9 +35,8 @@ async fn function_handler(event: Request) -> Result<impl IntoResponse, Error> {
   let resp = client
     .get_item()
     .table_name(table)
-    .key("name".to_string(), AttributeValue::S(name.to_string()))
-    .send()
-    .await?;
+    .key("name", AttrValue::S(name.to_string()))
+    .send().await?;
   let item = resp
     .item
     .ok_or_else(|| anyhow!("There is no such key: {}", name))?

@@ -13,7 +13,7 @@ servers:
         default: ""
 
 paths:
-  /quote:
+  /quotes:
     post:
       summary: Famouse Quote
       requestBody:
@@ -27,13 +27,13 @@ paths:
           description: ok
       x-amazon-apigateway-integration:
         httpMethod: "POST"
-        uri: "${POST_quote}"
+        uri: "${POST_quotes}"
         type: "AWS_PROXY"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
         contentHandling: CONVERT_TO_TEXT
         payloadFormatVersion: 2.0
-  /quote/{name}:
+  /quotes/{name}:
     get:
       summary: Famouse Quote
       requestBody:
@@ -53,7 +53,7 @@ paths:
           description: ok
       x-amazon-apigateway-integration:
         httpMethod: "POST"
-        uri: "${GET_quote_name}"
+        uri: "${GET_quotes_name}"
         type: "AWS_PROXY"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
@@ -78,7 +78,7 @@ paths:
           description: ok
       x-amazon-apigateway-integration:
         httpMethod: "POST"
-        uri: "${PUT_quote_name}"
+        uri: "${PUT_quotes_name}"
         type: "AWS_PROXY"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000
@@ -103,7 +103,7 @@ paths:
           description: ok
       x-amazon-apigateway-integration:
         httpMethod: "POST"
-        uri: "${DELETE_quote_name}"
+        uri: "${DELETE_quotes_name}"
         type: "AWS_PROXY"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 29000

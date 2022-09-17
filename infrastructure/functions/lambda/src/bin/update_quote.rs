@@ -10,7 +10,7 @@ use lambda_http::{
   IntoResponse, Request, Response,
 };
 use aws_sdk_dynamodb as dynamodb;
-use aws_sdk_dynamodb::model::{AttributeAction, AttributeValue, AttributeValueUpdate};
+use aws_sdk_dynamodb::model::{AttributeAction, AttributeValue as AttrValue, AttributeValueUpdate};
 
 type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 
@@ -22,9 +22,7 @@ async fn main() -> Result<(), Error> {
 
 #[derive(Debug, Deserialize, Default)]
 struct Args {
-  #[serde(default)]
   name: String,
-  #[serde(default)]
   quote: String,
 }
 
@@ -51,12 +49,12 @@ async fn func(event: Request) -> Result<impl IntoResponse, Error> {
 
   let attr = AttributeValueUpdate::builder()
     .action(AttributeAction::Put)
-    .value(AttributeValue::S(args.quote.clone()))
+    .value(AttrValue::S(args.quote.clone()))
     .build();
   client
     .update_item()
     .table_name(table)
-    .key("name", AttributeValue::S(args.name.clone()))
+    .key("name", AttrValue::S(args.name.clone()))
     .attribute_updates("quote", attr)
     .send().await?;
 

@@ -10,7 +10,7 @@ use lambda_http::{
   IntoResponse, Request, Response,
 };
 use aws_sdk_dynamodb as dynamodb;
-use aws_sdk_dynamodb::model::AttributeValue;
+use aws_sdk_dynamodb::model::AttributeValue as AttrValue;
 
 type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 
@@ -22,9 +22,7 @@ async fn main() -> Result<(), Error> {
 
 #[derive(Debug, Deserialize, Default)]
 struct Args {
-  #[serde(default)]
   name: String,
-  #[serde(default)]
   quote: String,
 }
 
@@ -51,8 +49,8 @@ async fn func(event: Request) -> Result<impl IntoResponse, Error> {
   client
     .put_item()
     .table_name(table)
-    .item("name", AttributeValue::S(args.name.clone()))
-    .item("quote", AttributeValue::S(args.quote.clone()))
+    .item("name", AttrValue::S(args.name.clone()))
+    .item("quote", AttrValue::S(args.quote.clone()))
     .send().await?;
 
   let body: Body = Body { message: format!("registerd, {}!", args.name) };

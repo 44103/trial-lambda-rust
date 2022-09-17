@@ -95,9 +95,9 @@ module "apigwv2" {
   stage_name = "v1"
   body       = file("openapi.yml")
   integrations = {
-    "POST_/quote"          = module.lambda_create_quote
-    "GET_/quote/{name}"    = module.lambda_show_quote
-    "PUT_/quote/{name}"    = module.lambda_update_quote
-    "DELETE_/quote/{name}" = module.lambda_destroy_quote
+    "POST_/quotes"          = module.lambda_create_quote
+    "GET_/quotes/{name}"    = module.lambda_show_quote
+    "PUT_/quotes/{name}"    = module.lambda_update_quote
+    "DELETE_/quotes/{name}" = module.lambda_destroy_quote
   }
 }

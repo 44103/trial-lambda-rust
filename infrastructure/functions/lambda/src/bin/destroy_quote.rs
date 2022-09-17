@@ -7,11 +7,10 @@ use std::env;
 use std::process;
 use lambda_http::{run, service_fn, Error, IntoResponse, Request, RequestExt, Response};
 use aws_sdk_dynamodb as dynamodb;
-use aws_sdk_dynamodb::model::AttributeValue;
+use aws_sdk_dynamodb::model::AttributeValue as AttrValue;
 
 #[derive(Debug, Serialize, Default)]
 struct Body {
-  #[serde(default)]
   message: String
 }
 
@@ -35,9 +34,8 @@ async fn function_handler(event: Request) -> Result<impl IntoResponse, Error> {
   client
     .delete_item()
     .table_name(table)
-    .key("name", AttributeValue::S(name.to_string()))
-    .send()
-    .await?;
+    .key("name", AttrValue::S(name.to_string()))
+    .send().await?;
   let body: Body = Body { message: format!("{} deleted", name) };
 
   Ok(Response::builder()
